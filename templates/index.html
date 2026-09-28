@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Banking System</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<header class="top"><b>Banking System</b><span id="who" hidden></span></header>
+<main>
+  <section id="auth" class="card narrow">
+    <div class="tabs" role="tablist">
+      <button class="tab on" data-group="auth" data-tab="login">Log in</button>
+      <button class="tab" data-group="auth" data-tab="register">Create account</button>
+    </div>
+    <div id="newacc" class="notice" hidden></div>
+    <form data-panel="login" data-group="auth" data-action="login" autocomplete="off">
+      <label>Account number<input name="account" inputmode="numeric" required></label>
+      <label>PIN<input name="pin" type="password" inputmode="numeric" maxlength="4" required></label>
+      <button class="primary">Log in</button>
+    </form>
+    <form data-panel="register" data-group="auth" data-action="register" autocomplete="off" hidden>
+      <label>Full name<input name="name" required></label>
+      <label>Phone number<input name="phone" inputmode="numeric" required></label>
+      <label>Choose a 4-digit PIN<input name="pin" type="password" inputmode="numeric" maxlength="4" required></label>
+      <button class="primary">Create account</button>
+    </form>
+  </section>
+
+  <section id="dash" hidden>
+    <div class="card balance">
+      <div class="muted">Available balance</div>
+      <div id="bal" class="big">0.00</div>
+      <div class="row"><span class="muted">Account <b id="accno"></b></span>
+        <button id="copy" class="ghost">Copy number</button>
+        <button id="logout" class="ghost">Log out</button></div>
+    </div>
+    <div class="grid">
+      <div class="card">
+        <div class="tabs">
+          <button class="tab on" data-group="act" data-tab="deposit">Deposit</button>
+          <button class="tab" data-group="act" data-tab="withdraw">Withdraw</button>
+          <button class="tab" data-group="act" data-tab="transfer">Transfer</button>
+          <button class="tab" data-group="act" data-tab="pin">Change PIN</button>
+        </div>
+        <form data-panel="deposit" data-group="act" data-action="deposit" data-ok="Deposit successful">
+          <label>Amount<input name="amount" type="number" step="0.01" min="0.01" required></label>
+          <div class="chips"><button type="button" data-add="100">+100</button><button type="button" data-add="500">+500</button><button type="button" data-add="1000">+1000</button></div>
+          <button class="primary">Deposit</button>
+        </form>
+        <form data-panel="withdraw" data-group="act" data-action="withdraw" data-ok="Withdrawal successful" hidden>
+          <label>Amount<input name="amount" type="number" step="0.01" min="0.01" required></label>
+          <div class="chips"><button type="button" data-add="100">+100</button><button type="button" data-add="500">+500</button><button type="button" data-all>All</button></div>
+          <button class="primary">Withdraw</button>
+        </form>
+        <form data-panel="transfer" data-group="act" data-action="transfer" data-ok="Transfer sent" hidden>
+          <label>Receiver account number<input name="to" inputmode="numeric" required></label>
+          <label>Amount<input name="amount" type="number" step="0.01" min="0.01" required></label>
+          <button class="primary">Send money</button>
+        </form>
+        <form data-panel="pin" data-group="act" data-action="change-pin" data-ok="PIN changed" hidden>
+          <label>Current PIN<input name="old" type="password" inputmode="numeric" maxlength="4" required></label>
+          <label>New PIN<input name="new" type="password" inputmode="numeric" maxlength="4" required></label>
+          <label>Confirm new PIN<input name="confirm" type="password" inputmode="numeric" maxlength="4" required></label>
+          <button class="primary">Update PIN</button>
+        </form>
+      </div>
+      <div class="card">
+        <div class="row"><b>Transaction history</b>
+          <div class="chips"><button class="f on" data-f="all">All</button><button class="f" data-f="in">In</button><button class="f" data-f="out">Out</button></div></div>
+        <ul id="hist"></ul>
+      </div>
+    </div>
+  </section>
+</main>
+<div id="toast" role="status" aria-live="polite"></div>
+<script src="{{ url_for('static', filename='app.js') }}"></script>
+</body>
+</html>
